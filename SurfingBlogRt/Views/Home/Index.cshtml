@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Лента новостей";
+}
+@model News
+
+@if (User.Identity.IsAuthenticated)
+{
+<form class="card" asp-controller="Home" asp-action="AddNewPost" method="post" enctype="multipart/form-data">
+    <div class="card-header" style="background-color: #dce4e9;">Добавление новой записи</div>
+    <div class="card-body">
+        <div>
+            <label>Введите текст</label>
+            <div>
+                <textarea class="form-control" asp-for="Text"></textarea>
+            </div>
+        </div>
+        <div>
+            <label>Прикрепить изображение</label>
+            <input id="imageDataName" disabled class="form-control col-3" />
+            <label class="btn btn-primary">
+                Обзор...<input type="file" style="display: none;" id="imageData"
+                               accept=".jpg,.jpeg,.png" name="imageData" onchange="onImageUpload()">
+            </label>
+        </div>
+    </div>
+    <div class="card-footer">
+        <input type="submit" class="btn btn-secondary" style="background-color: #dce4e9; color: #4f4f4f; float: right" value="Добавить" />
+    </div>
+</form>
+}
+<div>
+    @foreach (News post in ViewBag.Posts)
+    {
+    <div class="card">
+        <div class="card-header" style="background-color: #dce4e9;">
+            @if (post.Author.Photo.HasValue && Guid.Empty != post.Author.Photo.Value)
+            {
+                <img src="@Url.Content(SurfClub.Helpers.ImageHelper.GetUrl(post.Author.Photo))" class="rounded-circle" width="30" height="30" />
+            }
+            else
+            {
+                <img src="~/img/defaultProfile.jpg" width="30" height="30" style="border-radius: 50%" />
+            }
+            <label>@post.Author.Nickname</label>
+            <div>
+                <label>@post.CreateDateLabel</label>
+            </div>
+        </div>
+        <div class="card-body" style="word-break: break-all;">
+            <div>
+                @if (!string.IsNullOrEmpty(post.Text))
+                {
+                    <label>@post.Text</label>}
+            </div>
+            @if (post.Image.HasValue && Guid.Empty != post.Image.Value)
+            {
+                var photoUrl = SurfClub.Helpers.ImageHelper.GetUrl(post.Image);
+                @if (photoUrl != null)
+                {
+                    <img src="@Url.Content(photoUrl)" class="w-100 h-100" />
+                }
+            }
+        </div>
+    </div>
+    }
+</div>

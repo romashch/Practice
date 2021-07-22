@@ -1,0 +1,36 @@
+﻿@{ ViewData["Title"] = "Авторизация"; }
+@model LoginViewModel
+
+<div class="col-4 text-center" style="margin: auto; style=" width: 330px"">
+    <form asp-controller="Login" asp-action="Login" method="post" enctype="multipart/form-data" style="margin: auto">
+        <div class="card">
+            <div class="card-header" style="background-color: #dce4e9;">Авторизация</div>
+            <div class="card-body">
+                <div class="form-group text-left">
+                    <label asp-for="Nickname"></label>
+                    <input type="text" class="form-control" asp-for="Nickname" />
+                    <span asp-validation-for="Nickname"></span>
+                </div>
+                <div class="form-group text-left">
+                    <label asp-for="Password"></label>
+                    <input type="password" class="form-control" asp-for="Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" asp-for="RememberMe" />
+                        <label asp-for="RememberMe"></label>
+                    </label>
+                </div>
+                <div class="validation" asp-validation-summary="ModelOnly"></div>
+                <input type="submit" class="btn btn-secondary" style="background-color: #dce4e9; color: #4f4f4f" value="Войти" />
+            </div>
+        </div>
+    </form>
+    <div class="text-center">
+        <label>Уже есть аккаунт?</label>
+        <a asp-area="" asp-controller="Register" asp-action="Index">
+            <input type="submit" class="btn btn-secondary" style="background-color: #dce4e9; color: #4f4f4f" value="Зарегистрироваться" />
+        </a>
+    </div>
+</div>
